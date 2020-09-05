@@ -51,7 +51,7 @@ app.use(session({
 app.use(multer({ storage: fileStorage, fileFilter: fileFilter }).single('image'));
 
 // DB-setup
-const dbUri = '';
+const dbUri = 'mongodb+srv://tommy:tommy123@cluster0.6ne0u.mongodb.net/discover-deployed?retryWrites=true&w=majority';
 mongoose.connect(dbUri, {
     useNewUrlParser: true,
     useUnifiedTopology: true
