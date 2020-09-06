@@ -26,7 +26,7 @@ export default {
 
     .course-container {
         height: 270px;
-        min-width: 220px;
+        width: 220px;
         box-shadow: 0px 3px 9px 0px lightgray;
         margin: 15px;
         display: flex;
@@ -49,7 +49,10 @@ export default {
             font-size: 20px;
             text-align: center;
             margin: 10px 0 20px 0;
-            height: 40px;
+            height: 50px;
+            max-width: 200px;
+            overflow: hidden;
+            text-overflow: ellipsis;
             }
             .numOfVideos {
                 margin: 30px 0 10px 0;

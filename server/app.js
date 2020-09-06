@@ -26,7 +26,7 @@ app.use(session({
 }))
 
 // DB-setup
-const dbUri = '';
+const dbUri = 'mongodb+srv://tommy:tommy123@cluster0.6ne0u.mongodb.net/discover-local?retryWrites=true&w=majority';
 mongoose.connect(dbUri, {
     useNewUrlParser: true,
     useUnifiedTopology: true
@@ -50,5 +50,5 @@ app.use('/api/content', contentRoutes);
 //HANDLE PROD
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static(__dirname + '/../client/'));
-    app.get(/.*/, (req, res) => res.sendFile(__dirname + '/../client/index.html'));
+    app.get(/.*/, (req, res) => res.sendFile(__dirname + '/../index.html'));
 }

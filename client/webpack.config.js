@@ -5,7 +5,7 @@ var UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 module.exports = {
   entry: './src/main.js',
   output: {
-    path: path.resolve(__dirname, './dist'),
+    path: path.resolve(__dirname, './../dist'),
     publicPath: '/dist/',
     filename: 'build.js'
   },

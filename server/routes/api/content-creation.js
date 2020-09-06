@@ -19,12 +19,11 @@ const multerS3 = require('multer-s3');
 
 const getDateStamp = () => {
     let d = new Date();
-    let minute = d.getMinutes();
     let hour = d.getHours();
     let date = d.getDate();
     let month = d.getMonth();
     let year = d.getFullYear();
-    return fullDate = `${minute}${hour}${date}${month}${year}`;
+    return fullDate = `${hour}${date}${month}${year}`;
 }
 
 let upload = multer({
@@ -188,7 +187,6 @@ router.delete('/delete-video/:videoId', async (req, res) => {
         updatedCourse.classIds.splice(indexOfVideo, 1);
         updatedCourse.save();
         const deleteVideo = await Video.findByIdAndDelete(videoId);
-        fileHandler.deleteFile(video.videoUrl);
         const currentCourseVideoIds = [...updatedCourse.classIds];
         const courseVideos = await Video.find({ _id: [...currentCourseVideoIds] }).sort({ order: 1 }).lean();
         const courseAuthor = await User.findById(updatedCourse.courseAuthorId);

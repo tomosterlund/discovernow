@@ -17,12 +17,11 @@ const User = require('./../../models/User');
 
 const getDate = () => {
     let d = new Date();
-    let minute = d.getMinutes();
     let hour = d.getHours();
     let date = d.getDate();
     let month = d.getMonth();
     let year = d.getFullYear();
-    return fullDate = `${minute}${hour}${date}${month}${year}`;
+    return fullDate = `${hour}${date}${month}${year}`;
 }
 
 let uploadPic = multer({
