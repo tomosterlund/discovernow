@@ -5,34 +5,11 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const multer = require('multer');
 const fs = require('fs');
 const shortid = require('shortid');
 const path = require('path');
 app.use(cors())
 app.use(bodyParser.json());
-
-//initializing multer
-const fileStorage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, 'client/dist/images');
-    },
-    filename: (req, file, cb) => {
-        cb(null, shortid.generate() + '-' + file.originalname);
-    }
-});
-
-const fileFilter = (req, file, cb) => {
-    if (
-        file.mimetype === 'image/png' ||
-        file.mimetype === 'image/jpg' ||
-        file.mimetype === 'video/mp4' ||
-        file.mimetype === 'image/jpeg') {
-        cb(null, true);
-    } else {
-        cb(null, false);
-    }
-}
 
 //session
 app.use(session({
@@ -47,8 +24,6 @@ app.use(session({
         maxAge: 1000 * 60 * 60 * 24 * 7
     }
 }))
-
-app.use(multer({ storage: fileStorage, fileFilter: fileFilter }).single('image'));
 
 // DB-setup
 const dbUri = '';

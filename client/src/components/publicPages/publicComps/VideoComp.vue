@@ -3,7 +3,7 @@
       <video ref="videoRef" width="600" controls></video>
       <div class="video-info__container">
           <div class="left-container">
-            <div class="author-image" :style="{ backgroundImage: `url('./../../../../dist/images/${courseAuthor.imageUrl}')` }"></div>
+            <div class="author-image" :style="{ backgroundImage: `url('https://discover-test-files.s3.eu-central-1.amazonaws.com/${courseAuthor.imageUrl}')` }"></div>
             <div class="video-info__text-container">
                 <span class="video-title">{{ title }}</span>
                 <div class="timestamp">{{ this.timestamp }}</div>
@@ -34,7 +34,7 @@ export default {
     },
     props: ['courseAuthor', 'courseVideos', 'courseData'],
     mounted() {
-        this.$refs.videoRef.src = `./../../../../dist/images/${this.$store.state.currentVideo}`;
+        this.$refs.videoRef.src = `https://discover-test-files.s3.eu-central-1.amazonaws.com/${this.$store.state.currentVideo}`;
         function numberWithCommas(x) {
             return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         }

@@ -48,8 +48,9 @@ router.get('/get-courses/:subject', async (req, res) => {
 })
 
 router.post('/find-course', async (req, res) => {
-    const searchInput = JSON.parse(req.body.searchInput);
+    const searchInput = req.body.input;
     const matchingCourses = await Course.find({ courseTitle: {$regex: searchInput, $options: 'i'}, public: true }).lean();
+    console.log(matchingCourses);
     res.json({matchingCourses});
 })
 

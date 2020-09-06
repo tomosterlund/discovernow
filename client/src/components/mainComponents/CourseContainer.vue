@@ -4,7 +4,7 @@
             <h2 class="course-title">
                 {{ course.courseTitle }}
             </h2>
-            <div :style="{ backgroundImage: `url('./../../../dist/images/${course.courseImageUrl}')` }" class="course-image__container"></div>
+            <div :style="{ backgroundImage: `url('https://discover-test-files.s3.eu-central-1.amazonaws.com/${course.courseImageUrl}')` }" class="course-image__container"></div>
             <div class="numOfVideos">Number of videos: {{ course.classIds.length }}</div>
             <div class="creation-date">Created at: {{ course.timeStamp }}</div>
         </div>

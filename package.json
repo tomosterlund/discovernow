@@ -10,6 +10,7 @@
   "author": "Tom Österlund",
   "license": "ISC",
   "dependencies": {
+    "aws-sdk": "^2.747.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "connect-mongo": "^3.2.0",
@@ -19,6 +20,7 @@
     "express-validator": "^6.6.1",
     "mongoose": "^5.10.0",
     "multer": "^1.4.2",
+    "multer-s3": "^2.9.0",
     "shortid": "^2.2.15",
     "vuedraggable": "^2.24.1"
   },

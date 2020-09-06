@@ -44,7 +44,8 @@ export default {
                 name: '',
                 email: '',
                 password: '',
-                pwconfirm: ''
+                pwconfirm: '',
+                rdmString: Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
             },
             selectedFile: '',
             serverUrl: 'api/base/registration',
@@ -53,7 +54,7 @@ export default {
     methods: {
         selectFile(event) {
             this.selectedFile = event.target.files[0];
-            console.log(this.selectedFile);
+            console.log(this.selectedFile.name);
         },
         postNewUser() {
             if (this.newUser.password === this.newUser.pwconfirm) {

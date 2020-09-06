@@ -39,7 +39,8 @@ export default {
                 title: '',
                 description: '',
                 courseId: this.$store.state.currentCourse,
-                order: 0
+                order: 0,
+                rdmString: Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
             },
             selectedFile: '',
             queryPending: false

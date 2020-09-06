@@ -37,10 +37,7 @@ export default {
     },
     methods: {
         postLogin() {
-            const userData = JSON.stringify(this.login);
-            const fd = new FormData();
-            fd.append('user', userData);
-            axios.post(this.serverUrl, fd)
+            axios.post(this.serverUrl, this.login)
             .then(res => {
                 this.$store.state.user = res.data.loggedInUser;
                 console.log(this.$store.state.user);

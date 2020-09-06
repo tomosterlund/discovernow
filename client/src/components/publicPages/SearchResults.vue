@@ -4,7 +4,7 @@
         <h1>Showing results for: "{{ lastSearchInput }}"</h1>
         <div class="courses-container">
             <div v-for="course in searchResults" :key="course._id" @click="goToCourse(course._id)" class="course-container">
-                <div :style="{ backgroundImage: `url('./../../../dist/images/${course.courseImageUrl}')` }" class="image-container"></div>
+                <div :style="{ backgroundImage: `url('https://discover-test-files.s3.eu-central-1.amazonaws.com/${course.courseImageUrl}')` }" class="image-container"></div>
                 <div class="course-info__container">
                     <h2>
                         {{ course.courseTitle }}

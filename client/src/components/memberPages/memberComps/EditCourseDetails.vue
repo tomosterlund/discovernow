@@ -116,7 +116,7 @@ export default {
     computed: {
         courseImageCss: function() {
             return {
-                backgroundImage: `url('./../../../../dist/images/${this.$store.state.currentCourseObject.courseData.courseImageUrl}')`
+                backgroundImage: `url('https://discover-test-files.s3.eu-central-1.amazonaws.com/${this.$store.state.currentCourseObject.courseData.courseImageUrl}')`
             }
         }
     },

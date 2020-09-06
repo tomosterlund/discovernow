@@ -1,7 +1,7 @@
 <template>
   <div class="nav-container">
       <div class="course-info__container">
-          <div class="course-image" :style="{ backgroundImage: `url('./../../../../dist/images/${courseData.courseImageUrl}')` }"></div>
+          <div class="course-image" :style="{ backgroundImage: `url('https://discover-test-files.s3.eu-central-1.amazonaws.com/${courseData.courseImageUrl}')` }"></div>
           <div class="course-title">{{ courseData.courseTitle }}</div>
       </div>
       <div @click="goToVideo(video)" v-for="(video, index) in courseVideos" :key="video._id" class="video-summary__container">

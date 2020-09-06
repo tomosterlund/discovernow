@@ -3,7 +3,7 @@
       <div class="header-left__container">
           <div class="header__page-title">discover n<i class="fa fa-search" aria-hidden="true"></i>w</div>
           <div class="input-container">
-              <input @keyup.enter="searchForCourse" v-model="searchInput" type="text" placeholder="Search for courses">
+              <input @keyup.enter="searchForCourse" v-model="searchInput.input" type="text" placeholder="Search for courses">
               <unicon @click="searchForCourse" class="unicon-search" name="search" fill="white" />
           </div>
       </div>
@@ -32,13 +32,15 @@ export default {
         return {
             state: '',
             serverUrl: 'api/base/registration',
-            searchInput: ''
+            searchInput: {
+                input: ''
+            }
         }
     },
     computed: {
         userImageCss: function() {
             return {
-                backgroundImage: `url('./../../../dist/images/${this.$store.state.user.imageUrl}')`
+                backgroundImage: `url('https://discover-test-files.s3.eu-central-1.amazonaws.com/${this.$store.state.user.imageUrl}')`
             }
         }
     },
@@ -61,11 +63,8 @@ export default {
             this.$router.push({ path: '/add-course' })
         },
         searchForCourse() {
-            this.$store.commit('lastSearchInput', this.searchInput);
-            const searchInput = this.searchInput;
-            const fd = new FormData();
-            fd.append('searchInput', JSON.stringify(searchInput));
-            axios.post('api/content/find-course', fd)
+            this.$store.commit('lastSearchInput', this.searchInput.input);
+            axios.post('api/content/find-course', this.searchInput)
                 .then(response => {
                     this.$store.dispatch('lastSearchResults', response.data.matchingCourses);
                     return this.$router.push({ path: '/search-results' });

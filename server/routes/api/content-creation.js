@@ -4,6 +4,39 @@ const User = require('./../../models/User');
 const Course = require('./../../models/Course');
 const Video = require('./../../models/Video');
 const fileHandler = require('./../../util/file-handler');
+const AWS = require('aws-sdk');
+AWS.config.loadFromPath('./config.json');
+AWS.config.getCredentials(err => {
+    if (err) {
+        console.log('Error', err);
+    } else {
+        console.log('Access key loaded');
+    }
+});
+const s3 = new AWS.S3({ apiVersion: '2006-03-01' });
+const multer = require('multer');
+const multerS3 = require('multer-s3');
+
+const getDateStamp = () => {
+    let d = new Date();
+    let minute = d.getMinutes();
+    let hour = d.getHours();
+    let date = d.getDate();
+    let month = d.getMonth();
+    let year = d.getFullYear();
+    return fullDate = `${minute}${hour}${date}${month}${year}`;
+}
+
+let upload = multer({
+    storage: multerS3({
+        s3: s3,
+        bucket: 'discover-test-files',
+        acl: 'public-read',
+        key: function (req, file, cb) {
+        cb(null, getDateStamp() + file.originalname)
+        }
+    })
+});
 
 const getDate = () => {
     let d = new Date();
@@ -14,11 +47,11 @@ const getDate = () => {
     return fullDate = `${date} ${monthsArr[month]} ${year}`;
 }
 
-router.post('/create-course', async (req, res) => {
+router.post('/create-course', upload.single('image'), async (req, res) => {
     let courseImageUrl = '';
 
     if (req.file) {
-        courseImageUrl = req.file.filename;
+        courseImageUrl = getDateStamp() + req.file.originalname;
     } else if (!req.file) {
         courseImageUrl = 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/User_font_awesome.svg/768px-User_font_awesome.svg.png';
     }
@@ -51,17 +84,19 @@ router.post('/create-course', async (req, res) => {
     }
 });
 
-router.post('/add-video', async (req, res) => {
+router.post('/add-video', upload.single('image'), async (req, res) => {
     let videoUrl = '';
+    const parsedBody = JSON.parse(req.body.videoData);
 
     if (req.file) {
-        videoUrl = req.file.filename;
+        videoUrl = getDateStamp() + req.file.originalname;
     } else if (!req.file) {
         videoUrl = 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/User_font_awesome.svg/768px-User_font_awesome.svg.png';
     }
 
-    const parsedBody = JSON.parse(req.body.videoData);
+    
     const title = parsedBody.title;
+    const rdmString = parsedBody.rdmString;
     const description = parsedBody.description;
     const courseId = parsedBody.courseId;
     const timeStamp = getDate();
@@ -167,15 +202,14 @@ router.delete('/delete-video/:videoId', async (req, res) => {
     }
 });
 
-router.post('/edit-course', async (req, res) => {
+router.post('/edit-course', upload.single('image'), async (req, res) => {
     const parsedBody = JSON.parse(req.body.course);
     try {
         const currentCourse = await Course.findOne({ _id: parsedBody._id });
         let courseImageUrl = '';
 
         if (req.file) {
-            fileHandler.deleteFile(currentCourse.courseImageUrl);
-            currentCourse.courseImageUrl = req.file.filename;
+            currentCourse.courseImageUrl = getDateStamp() + req.file.originalname;
         } else if (!req.file) {
             currentCourse.courseImageUrl = currentCourse.courseImageUrl;
         }
