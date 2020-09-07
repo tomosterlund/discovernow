@@ -1,23 +1,14 @@
 <template>
-  <div class="main-container">
+  <v-app>
     <router-view />
-  </div>
+  </v-app>
 </template>
 
 <script>
 export default {
-  
-}
+  name: 'App',
+  data: () => ({
+    //
+  }),
+};
 </script>
-
-<style lang="scss">
-body {
-        margin: 0;
-        padding: 0;
-    }
-  .main-container {
-    width: 100vw;
-    height: 100vh;
-    margin: 0;
-  }
-</style>

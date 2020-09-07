@@ -126,12 +126,28 @@ export default {
                 align-items: center;
                 input {
                     outline: none;
-                    border: 1px solid transparent;
-                    width: 300px;
+                    width: 200px;
                     border-radius: 3px;
+                    padding: 0.3rem;
+                    background-color: #4f7383;
+                    color: black;
                     &:focus {
-                        border: 1px solid $darkOrange;
-                        box-shadow: 1px 1px 3px $yellow;
+                        background-color: snow;
+                        animation-name: focusInput;
+                        animation-duration: 0.27s;
+                        animation-iteration-count: 1;
+                        animation-fill-mode: forwards;
+                        &::placeholder {
+                            color: gray;
+                        }
+                    }
+                    &::placeholder {
+                        color: lightgray;
+                    }
+                }
+                @keyframes focusInput {
+                    100% {
+                        width: 350px;
                     }
                 }
                 .unicon-search {

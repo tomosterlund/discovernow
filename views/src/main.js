@@ -13,6 +13,7 @@ Unicon.add([uniTrash, uniEdit, uniEyeSlash, uniPlusSquare, uniArrowDown, uniSear
 Vue.use(Unicon)
 
 import ToggleButton from 'vue-js-toggle-button'
+import vuetify from './plugins/vuetify';
 Vue.use(ToggleButton)
 
 Vue.config.productionTip = false
@@ -20,5 +21,6 @@ Vue.config.productionTip = false
 new Vue({
   router,
   store,
+  vuetify,
   render: h => h(App)
 }).$mount('#app')

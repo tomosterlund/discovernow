@@ -4,28 +4,36 @@
       <div class="form-container">
         <h1 class="registration-form__header">Register now</h1>
         <div class="input-container">
-            <label class="input-label" for="name">Name</label>
-            <input @input="$v.newUser.name.$touch()" v-model.trim="newUser.name" type="text" :class="{ errorUX: $v.newUser.name.$error }" class="form-control" placeholder="Enter your name">
-        </div>
-        <p class="error-box" v-if="$v.newUser.name.$error">Name field has to contain at least 3 characters</p>
-        <div class="input-container">
-            <label class="input-label" for="email">E-mail</label>
-            <input @input="$v.newUser.email.$touch()" v-model.trim="newUser.email" type="email" :class="{ errorUX: $v.newUser.email.$error }" class="form-control" placeholder="Enter your e-mail address">
+            <v-text-field @input="$v.newUser.name.$touch()" v-model.trim="newUser.name" class="vuetify-input" label="Name" outlined></v-text-field>
+            <p class="error-box" v-if="$v.newUser.name.$error">Name field has to contain at least 3 characters</p>
         </div>
         <div class="input-container">
-            <label class="input-label" for="password">Password</label>
-            <input @blur="$v.newUser.password.$touch()" v-model.trim="newUser.password" type="password" :class="{ errorUX: $v.newUser.password.$error }" class="form-control" placeholder="Choose a password">
+            <v-text-field @input="$v.newUser.email.$touch()" v-model.trim="newUser.email" class="vuetify-input" label="E-mail" outlined></v-text-field>
+        </div>
+        <div class="input-container">
+            <v-text-field @blur="$v.newUser.password.$touch()" v-model.trim="newUser.password" class="vuetify-input" type="password" label="Password" outlined></v-text-field>
         </div>
         <p class="error-box" v-if="$v.newUser.password.$error">Password has to contain at least 6 characters</p>
         <div class="input-container">
-            <label class="input-label" for="pwconfirm">Confirm password</label>
-            <input @input="$v.newUser.pwconfirm.$touch()" v-model.trim="newUser.pwconfirm" type="password" :class="{ errorUX: $v.newUser.pwconfirm.$error }" class="form-control" placeholder="Confirm your password">
+            <v-text-field @input="$v.newUser.pwconfirm.$touch()" v-model.trim="newUser.pwconfirm" class="vuetify-input" label="Confirm password" type="password" outlined></v-text-field>
         </div>
-        <div class="input-container">
+        <p class="error-box" v-if="$v.newUser.pwconfirm.$error">Passwords need to match</p>
+        <div class="input-container" style="margin-top: -20px; display: none">
             <label class="input-label" for="email">Picture</label>
-            <input @change="selectFile" class="form-control-file" ref="file" type="file" name="image" placeholder="Enter your e-mail address">
+            <input @change="selectFile" class="form-control-file" ref="file" type="file" name="image">
         </div>
-        <div class="button-container">
+        
+        <v-text-field
+            style="width: 300px;"
+            label="Picture"
+            outlined
+            prepend-icon="mdi-camera"
+            @click="pickFile"
+            v-model="selectedFileName"
+            readonly="readonly"
+        >
+        </v-text-field>
+        <div class="button-container" style="margin-top: -10px">
             <button @click="postNewUser" :disabled="$v.$invalid" class="registration-button">Register</button>
         </div>
       </div>
@@ -49,11 +57,20 @@ export default {
             },
             selectedFile: '',
             serverUrl: 'api/base/registration',
+            nameRules: [
+                v => !!v || 'Name is required',
+                v => v.length <= 10 || 'Name must be less than 10 characters',
+            ],
+            selectedFileName: ''
         }
     },
     methods: {
+        pickFile() {
+            this.$refs.file.click();
+        },
         selectFile(event) {
             this.selectedFile = event.target.files[0];
+            this.selectedFileName = this.selectedFile.name;
             console.log(this.selectedFile.name);
         },
         postNewUser() {
@@ -156,6 +173,9 @@ export default {
                 .file-input {
                     padding: 0.5rem;
                 }
+                .vuetify-input {
+                    width: 350px;
+                }
             }
             .button-container {
                 display: flex;
@@ -195,13 +215,14 @@ export default {
 
     // VUELIDATE CLASSES
     .errorUX {
-        background-color: rgb(241, 197, 201);
+        // background-color: rgb(241, 197, 201);
+        border: 1px solid rgb(241, 197, 201);
     }
 
     .error-box {
         background-color: rgb(241, 197, 201);
-        margin-top: 10px;
         padding: 0.5rem;
         border-radius: 3px;
+        margin-top: -10px;
     }
 </style>

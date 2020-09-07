@@ -4,15 +4,13 @@
       <div class="form-container">
           <h1 class="login-form__header">Sign in</h1>
           <div class="input-container">
-              <label for="email" class="input-label">E-mail</label>
-              <input v-model="login.email" type="text" class="form-control" placeholder="Enter your e-mail">
+              <v-text-field v-model="login.email" class="vuetify-input" label="E-mail" outlined></v-text-field>
           </div>
           <div class="input-container">
-              <label for="password" class="input-label">Password</label>
-              <input @keyup.enter="postLogin" v-model="login.password" type="password" class="form-control" placeholder="Enter your password">
+              <v-text-field @keyup.enter="postLogin" v-model="login.password" type="password" class="vuetify-input" label="Password" outlined></v-text-field>
           </div>
           <div class="button-container">
-              <span @click="postLogin">
+              <span @click="postLogin" style="margin-top: -30px">
                   <app-button buttonText="Sign in" />
               </span>
           </div>
@@ -100,6 +98,9 @@ export default {
                         outline: none;
                         box-shadow: 0px 1px 3px 0px $darkOrange;
                     }
+                }
+                .vuetify-input {
+                    width: 350px;
                 }
             }
             .button-container {
