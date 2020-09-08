@@ -1,12 +1,30 @@
 <template>
   <div class="nav-container">
       <div class="course-info__container">
-          <div class="course-image" :style="{ backgroundImage: `url('https://discover-test-files.s3.eu-central-1.amazonaws.com/${courseData.courseImageUrl}')` }"></div>
-          <div class="course-title">{{ courseData.courseTitle }}</div>
+          <div v-if="this.$store.state.loadingDone" class="course-image" :style="{ backgroundImage: `url('https://discover-test-files.s3.eu-central-1.amazonaws.com/${courseData.courseImageUrl}')` }"></div>
+          <div v-if="this.$store.state.loadingDone" class="course-title">{{ courseData.courseTitle }}</div>
+          <v-skeleton-loader
+            v-if="!this.$store.state.loadingDone"
+            type="image"
+            height="60"
+            width="60"
+            style="margin: 10px;">
+            </v-skeleton-loader>
       </div>
-      <div @click="goToVideo(video)" v-for="(video, index) in courseVideos" :key="video._id" class="video-summary__container">
-          {{ index + 1 }}. {{ video.title }}
-      </div>
+      <span v-if="this.$store.state.loadingDone">
+        <div @click="goToVideo(video)" v-for="(video, index) in courseVideos" :key="video._id" class="video-summary__container">
+            {{ index + 1 }}. {{ video.title }}
+        </div>
+      </span>
+      <span v-if="!this.$store.state.loadingDone">
+        <v-skeleton-loader
+            type="paragraph"
+            v-for="n in 4"
+            :key="n"
+            style="margin: 0 0 20px 10px; width: 80%"
+            >
+        </v-skeleton-loader>
+      </span>
   </div>
 </template>
 

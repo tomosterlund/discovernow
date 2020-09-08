@@ -3,8 +3,14 @@
       <video ref="videoRef" width="600" controls></video>
       <div class="video-info__container">
           <div class="left-container">
-            <div class="author-image" :style="{ backgroundImage: `url('https://discover-test-files.s3.eu-central-1.amazonaws.com/${courseAuthor.imageUrl}')` }"></div>
-            <div class="video-info__text-container">
+            <v-skeleton-loader
+            type="list-item-avatar-two-line"
+            width="500"
+            v-if="!this.$store.state.loadingDone"
+            >
+            </v-skeleton-loader>
+            <div v-if="this.$store.state.loadingDone" class="author-image" :style="{ backgroundImage: `url('https://discover-test-files.s3.eu-central-1.amazonaws.com/${courseAuthor.imageUrl}')` }"></div>
+            <div v-if="this.$store.state.loadingDone" class="video-info__text-container">
                 <span class="video-title">{{ title }}</span>
                 <div class="timestamp">{{ this.timestamp }}</div>
             </div>

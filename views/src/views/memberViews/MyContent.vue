@@ -76,6 +76,11 @@ export default {
             this.$store.state.courseCreatorPage = 0;
             this.$router.push({ path: '/add-course' })
         }
+    },
+    beforeMount() {
+        if (!this.$store.state.user.name) {
+            this.$router.push({ path: '/' });
+        }
     }
 }
 </script>

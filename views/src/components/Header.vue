@@ -73,7 +73,9 @@ export default {
         }
     },
     created() {
-        this.state = this.$store.state.user.name || null;
+        if (this.$store.state.user.name) {
+            this.state = this.$store.state.user.name || null;
+        }
         if (!this.$store.state.user.name) {
             axios.get('/api/base/verified')
                 .then(response => {

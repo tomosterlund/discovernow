@@ -13,7 +13,8 @@ export const store = new Vuex.Store({
         currentVideoObject: {},
         currentWatchedCourse: {},
         lastSearchResults: {},
-        lastSearchInput: ''
+        lastSearchInput: '',
+        loadingDone: true
     },
     getters: {
         lastSearchResults: state => {
@@ -29,6 +30,9 @@ export const store = new Vuex.Store({
         },
         lastSearchInput: (state, param) => {
             state.lastSearchInput = param;
+        },
+        loadingDone: state => {
+            state.loadingDone = !state.loadingDone;
         }
     },
     actions: {

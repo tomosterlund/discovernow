@@ -7,6 +7,12 @@
                 </div>
                 <p v-if="showVideoDescr" class="ml-4">{{ description }}</p>
                 <p v-if="!showVideoDescr" class="ml-4">{{ courseDescription }}</p>
+                <v-skeleton-loader
+                type="paragraph"
+                width="500"
+                v-if="!this.$store.state.loadingDone"
+                >
+            </v-skeleton-loader>
             </div>
         </div>
 </template>

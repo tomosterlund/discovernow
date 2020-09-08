@@ -3,7 +3,7 @@
       <app-header />
       <div class="course-page__container">
           <div class="content-container">
-              <video-comp :courseAuthor="courseAuthor" :courseVideos="courseVideos" :courseData="courseData" :key="this.$store.state.currentVideo" />
+              <video-comp :loadingDone="loadingDone" :courseAuthor="courseAuthor" :courseVideos="courseVideos" :courseData="courseData" :key="this.$store.state.currentVideo" />
           </div>
           <course-nav :courseData="courseData" :courseVideos="courseVideos" class="sidenav-container"/>
       </div>
@@ -22,7 +22,8 @@ export default {
             routeParam: this.$route.params.courseId,
             courseData: {},
             courseVideos: {},
-            courseAuthor: {}
+            courseAuthor: {},
+            loadingDone: false
         }
     },
     components: {
@@ -31,10 +32,12 @@ export default {
         videoComp
     },
     created() {
+        this.$store.commit('loadingDone');
         if (!this.$route.params.videoId) {
             const routeParam = this.$route.params.courseId;
             axios.get('/api/content/course/' + routeParam)
                 .then(response => {
+                    this.$store.commit('loadingDone');
                     console.log('makes it here' + this.$route.params.courseId)
                     console.log(response.data)
                     console.log('Makes it here..')
@@ -49,6 +52,8 @@ export default {
         } else if (this.$route.params.videoId) {
             axios.get(`/api/content/video/${this.$route.params.videoId}`)
                 .then(response => {
+                    this.$store.commit('loadingDone');
+                    this.loadingDone = true;
                     console.log(response.data);
                     this.courseData = response.data.currentCourseObject.courseData;
                     this.courseVideos = response.data.currentCourseObject.courseVideos;

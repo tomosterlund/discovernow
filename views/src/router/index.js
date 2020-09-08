@@ -40,7 +40,7 @@ Vue.use(VueRouter)
   {
     path: '/search-results',
     name: 'Search results',
-    component: searchResults
+    component: searchResults,
   },
   {
     path: '/my-content',

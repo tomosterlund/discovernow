@@ -38,6 +38,11 @@ export default {
                 this.$store.state.currentCourse = response.data.currentCourseObject.courseData._id;
             })
             .catch(err => console.log(err));
+    },
+    beforeMount() {
+        if (!this.$store.state.user.name) {
+            this.$router.push({ path: '/' });
+        }
     }
 }
 </script>
