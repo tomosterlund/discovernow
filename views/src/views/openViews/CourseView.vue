@@ -33,7 +33,7 @@ export default {
     created() {
         if (!this.$route.params.videoId) {
             const routeParam = this.$route.params.courseId;
-            axios.get('api/content/course/' + routeParam)
+            axios.get('/api/content/course/' + routeParam)
                 .then(response => {
                     console.log('makes it here' + this.$route.params.courseId)
                     console.log(response.data)
@@ -47,7 +47,7 @@ export default {
                 })
                 .catch(err => console.log(err));
         } else if (this.$route.params.videoId) {
-            axios.get(`api/content/video/${this.$route.params.videoId}`)
+            axios.get(`/api/content/video/${this.$route.params.videoId}`)
                 .then(response => {
                     console.log(response.data);
                     this.courseData = response.data.currentCourseObject.courseData;

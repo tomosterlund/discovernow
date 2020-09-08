@@ -46,7 +46,7 @@ export default {
                 this.views = numberWithCommas(video.views);
             }
         }
-        axios.post(`http://localhost:5000/api/content/video/${this.$store.state.currentVideo}`)
+        axios.post(`/api/content/video/${this.$store.state.currentVideo}`)
             .then(result => console.log(result))
             .catch(err => console.log(err));
     }
