@@ -40,15 +40,15 @@ mongoose.connect(dbUri, {
 })
 .catch(err => console.log(err));
 
-const baseRoutes = require('./routes/api/base-routes');
-const contentCreationRoutes = require('./routes/api/content-creation');
-const contentRoutes = require('./routes/api/content');
+const baseRoutes = require('./server/routes/api/base-routes');
+const contentCreationRoutes = require('./server/routes/api/content-creation');
+const contentRoutes = require('./server/routes/api/content');
 app.use('/api/base', baseRoutes);
 app.use('/api/content', contentCreationRoutes);
 app.use('/api/content', contentRoutes);
 
 //HANDLE PROD
 if (process.env.NODE_ENV === 'production') {
-    app.use(express.static(__dirname + '/../client/'));
-    app.get(/.*/, (req, res) => res.sendFile(__dirname + '/../index.html'));
+    app.use(express.static(__dirname + '/server/public/'));
+    app.get(/.*/, (req, res) => res.sendFile(__dirname + '/server/public/index.html'));
 }
