@@ -26,7 +26,7 @@ app.use(session({
 }))
 
 // DB-setup
-const dbUri = 'mongodb+srv://tommy:tommy123@cluster0.6ne0u.mongodb.net/discover-local?retryWrites=true&w=majority';
+const dbUri = '';
 mongoose.connect(dbUri, {
     useNewUrlParser: true,
     useUnifiedTopology: true
