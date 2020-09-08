@@ -33,7 +33,7 @@ export default {
     created() {
         if (!this.$route.params.videoId) {
             const routeParam = this.$route.params.courseId;
-            axios.get('http://localhost:5000/api/content/course/' + routeParam)
+            axios.get('api/content/course/' + routeParam)
                 .then(response => {
                     console.log('makes it here' + this.$route.params.courseId)
                     console.log(response.data)
@@ -47,7 +47,7 @@ export default {
                 })
                 .catch(err => console.log(err));
         } else if (this.$route.params.videoId) {
-            axios.get(`http://localhost:5000/api/content/video/${this.$route.params.videoId}`)
+            axios.get(`api/content/video/${this.$route.params.videoId}`)
                 .then(response => {
                     console.log(response.data);
                     this.courseData = response.data.currentCourseObject.courseData;
@@ -70,10 +70,15 @@ export default {
     $orange: #f4a261;
     $darkOrange: #e76f51;
 
+    .home-page__container {
+        min-height: 100vh;
+                background-color: rgb(222, 228, 231);
+
+    }
+
     .course-page__container {
         width: 100%;
         min-width: 900px;
-        height: auto;
         display: flex;
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
         background-color: rgb(222, 228, 231);

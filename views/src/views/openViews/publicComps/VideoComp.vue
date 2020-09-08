@@ -13,14 +13,13 @@
               {{ views }} views
           </div>
       </div>
-      <div class="video-description">
-          {{ description }}
-      </div>
+      <video-texts :courseDescription="courseData.description" :description="description" style="width: 100%" />
   </div>
 </template>
 
 <script>
 import axios from 'axios'
+import videoTexts from '@/components/VideoTexts.vue'
 
 export default {
     data() {
@@ -32,6 +31,7 @@ export default {
             routeParam: this.$route.params.videoId
         }
     },
+    components: { videoTexts },
     props: ['courseAuthor', 'courseVideos', 'courseData'],
     mounted() {
         this.$refs.videoRef.src = `https://discover-test-files.s3.eu-central-1.amazonaws.com/${this.$store.state.currentVideo}`;
@@ -46,7 +46,7 @@ export default {
                 this.views = numberWithCommas(video.views);
             }
         }
-        axios.post(`http://localhost:5000/api/content/video/${this.$store.state.currentVideo}`)
+        axios.post(`api/content/video/${this.$store.state.currentVideo}`)
             .then(result => console.log(result))
             .catch(err => console.log(err));
     }
