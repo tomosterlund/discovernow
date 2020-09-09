@@ -2,7 +2,7 @@
     <span style="width: 100%">
         <div class="header-main__container">
             <div class="header-left__container">
-                <v-icon @click="drawer = !drawer" class="icon-hover d-sm-flex d-md-none" large dark color="#fffed3" elevation="24" left>mdi-menu</v-icon>
+                <v-icon @click="drawer = !drawer" class="icon-hover d-sm-flex d-md-none" large dark color="#fff" elevation="24" left>mdi-menu</v-icon>
                 <div class="header__page-title">discover n<i class="fa fa-search" aria-hidden="true"></i>w</div>
                 <div class="input-container hidden-sm-and-down d-md-flex">
                     <input
