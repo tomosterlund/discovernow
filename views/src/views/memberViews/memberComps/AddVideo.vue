@@ -14,25 +14,41 @@
             <textarea @input="$v.newVideo.description.$touch()" v-model.trim="newVideo.description" :class="{ errorUX: $v.newVideo.description.$error }" class="form-control textarea-control" placeholder="Describe your course here"></textarea>
         </div>
         <p class="error-box" v-if="$v.newVideo.description.$error">The course description can contain up to 560 characters.</p>
+        <p v-if="invalidVideoInput" class="error-box">The video needs a title, a file and a description!</p>
         <div class="button-container">
-            <button v-if="!queryPending" @click="postVideo" class="submit-button">Add video</button>
-            <half-circle-spinner
-                v-if="queryPending"
-                :animation-duration="1000"
-                :dot-size="20"
-                :dots-num="3"
-                color="#e76f51"
-                />
+            <button v-if="!queryPending && !$v.$invalid" :disabled="$v.$invalid" @click="postVideo" class="submit-button">Add video</button>
+            <button v-if="!queryPending && $v.$invalid" @click="invalidVideoInput = true" class="submit-button">Add video</button>
         </div>
+        <v-progress-linear
+        v-model="uploadPercentage"
+        v-if="queryPending"
+        style="margin-top: 20px;"
+        height="25"
+        color="#264653"
+        striped
+        >
+        <strong style="color: white">{{ uploadPercentage }}%</strong>
+        </v-progress-linear>
+        <v-progress-circular
+        v-if="uploadPercentage === 100"
+        indeterminate
+        color="primary"
+        style="margin-top: 20px;"
+        ></v-progress-circular>
+        <p v-if="uploadPercentage === 100" class="public-disclaimer">
+            Just hold on a few seconds more, while your upload is being received!
+        </p>
+        <app-dialog v-if="dialogActive" dialogText="Hold your horses! First pick a file to upload." buttonText="Got it!" />
     </div>
 </template>
 
 <script>
 import axios from 'axios'
-import { minLength, maxLength } from 'vuelidate/lib/validators'
-import { HalfCircleSpinner } from 'epic-spinners'
+import { minLength, maxLength, required } from 'vuelidate/lib/validators'
+import appDialog from '@/components/Dialog'
 
 export default {
+    components: { appDialog },
     data() {
         return {
             newVideo: {
@@ -43,7 +59,10 @@ export default {
                 rdmString: Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
             },
             selectedFile: '',
-            queryPending: false
+            queryPending: false,
+            invalidVideoInput: false,
+            uploadPercentage: 0,
+            dialogActive: false
         }
     },
     methods: {
@@ -52,6 +71,9 @@ export default {
             console.log(this.selectedFile);
         },
         postVideo() {
+            if (!this.selectedFile) {
+                return this.dialogActive = true;
+            }
             this.queryPending = true;
             if (this.$store.state.currentCourseObject.courseData.classIds) {
                 this.newVideo.order = this.$store.state.currentCourseObject.courseData.classIds.length + 1;
@@ -62,7 +84,11 @@ export default {
             const fd = new FormData();
             fd.append('image', this.selectedFile);
             fd.append('videoData', videoData);
-            axios.post('api/content/add-video', fd)
+            axios.post('api/content/add-video', fd, {
+                onUploadProgress: progressEvent => {
+                    this.uploadPercentage = parseInt(Math.round((progressEvent.loaded / progressEvent.total) * 100));
+                }
+            })
                 .then(response => {
                     this.queryPending = false;
                     console.log(response);
@@ -80,15 +106,15 @@ export default {
         newVideo: {
             title: {
                 minLength: minLength(6),
-                maxLength: maxLength(70)
+                maxLength: maxLength(70),
+                required
             },
             description: {
-                maxLength: maxLength(560)
+                minLength: minLength(6),
+                maxLength: maxLength(450),
+                required
             }
         }
-    },
-    components: {
-        HalfCircleSpinner
     },
     created() {
         axios.get(`api/content/course/${this.$store.state.currentCourse}`)
@@ -216,5 +242,14 @@ export default {
 
     .cursorProgress {
         cursor: progress;
+    }
+
+    .public-disclaimer {
+        background-color: rgb(142, 212, 221);
+        margin-top: 10px;
+        padding: 0.5rem;
+        border-radius: 3px;
+        width: 80%;
+        text-align: center;
     }
 </style>

@@ -201,14 +201,14 @@ export default {
                     font-size: 50px;
                     font-weight: 700;
                     opacity: 100%;
-                    z-index: 2;
+                    z-index: 1;
                 }
                 h3 {
                     position: absolute;
                     top: 150px;
                     font-size: 25px;
                     opacity: 100%;
-                    z-index: 2;
+                    z-index: 1;
                 }
                 .image-container {
                     height: 90%;
@@ -216,7 +216,7 @@ export default {
                     background-size: cover;
                     background-color: transparent;
                     opacity: 0.35;
-                    z-index: 1;
+                    z-index: 0;
                 }
             }
         }

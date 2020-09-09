@@ -38,9 +38,6 @@ export default {
             axios.get('/api/content/course/' + routeParam)
                 .then(response => {
                     this.$store.commit('loadingDone');
-                    console.log('makes it here' + this.$route.params.courseId)
-                    console.log(response.data)
-                    console.log('Makes it here..')
                     this.courseData = response.data.currentCourseObject.courseData;
                     this.courseVideos = response.data.currentCourseObject.courseVideos;
                     this.courseAuthor = response.data.currentCourseObject.courseAuthor;
@@ -54,7 +51,6 @@ export default {
                 .then(response => {
                     this.$store.commit('loadingDone');
                     this.loadingDone = true;
-                    console.log(response.data);
                     this.courseData = response.data.currentCourseObject.courseData;
                     this.courseVideos = response.data.currentCourseObject.courseVideos;
                     this.courseAuthor = response.data.currentCourseObject.courseAuthor;

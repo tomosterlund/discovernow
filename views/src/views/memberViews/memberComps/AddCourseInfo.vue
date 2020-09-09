@@ -22,7 +22,7 @@
             <label for="description" class="input-label label__for-description">Course description</label>
             <textarea @input="$v.newCourse.description.$touch()" v-model.trim="newCourse.description" :class="{ errorUX: $v.newCourse.description.$error }" class="form-control textarea-control" placeholder="Describe your course here"></textarea>
         </div>
-        <p class="error-box" v-if="$v.newCourse.description.$error">The course description can contain up to 560 characters.</p>
+        <p class="error-box" v-if="$v.newCourse.description.$error">The course description can has to be between 6 and 450 characters.</p>
         <div class="input-container" style="margin-top: 20px;">
             <label class="input-label" for="email">Course image (.jpg, .jpeg or .png)</label>
             <input @change="selectFile" class="form-control-file" ref="file" type="file" name="image" placeholder="Enter your e-mail address">
@@ -32,8 +32,12 @@
             <toggle-button v-model="newCourse.public" color="#2a9d8f" />
         </div>
         <p class="public-disclaimer" v-if="!newCourse.public">By disabling the public option, the videos of this course will only be available for sharing through links.</p>
+        <p v-if="invalidCourseInfo" class="error-box">All fields need to be filled out properly</p>
         <div class="button-container">
-            <span @click="postCreateCourse">
+            <span v-if="!$v.$invalid" @click="postCreateCourse">
+                <app-button buttonText="Next step" />
+            </span>
+            <span @click="invalidCourseInfo = true" v-if="$v.$invalid">
                 <app-button buttonText="Next step" />
             </span>
         </div>
@@ -54,7 +58,8 @@ export default {
                 description: '',
                 public: true
             },
-            selectedFile: ''
+            selectedFile: '',
+            invalidCourseInfo: false
         }
     },
     methods: {
@@ -83,13 +88,16 @@ export default {
         newCourse: {
             title: {
                 minLength: minLength(6),
-                maxLength: maxLength(70)
+                maxLength: maxLength(70),
+                required
             },
             subjects: {
                 required
             },
             description: {
-                maxLength: maxLength(560)
+                minLength: minLength(6),
+                maxLength: maxLength(450),
+                required
             }
         }
     },

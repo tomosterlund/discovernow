@@ -3,7 +3,7 @@
       <div class="header-left__container">
           <div class="header__page-title">discover n<i class="fa fa-search" aria-hidden="true"></i>w</div>
           <div class="input-container">
-              <input @keyup.enter="searchForCourse" v-model="searchInput.input" type="text" placeholder="Search for courses">
+              <input ref="searchField" @keyup.enter="searchForCourse" v-model="searchInput.input" type="text" placeholder="Search for courses">
               <unicon @click="searchForCourse" class="unicon-search" name="search" fill="white" />
           </div>
       </div>

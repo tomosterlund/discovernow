@@ -15,7 +15,7 @@
         </div>
         <p class="error-box" v-if="$v.newUser.password.$error">Password has to contain at least 6 characters</p>
         <div class="input-container">
-            <v-text-field @input="$v.newUser.pwconfirm.$touch()" v-model.trim="newUser.pwconfirm" class="vuetify-input" label="Confirm password" type="password" outlined></v-text-field>
+            <v-text-field @input="$v.newUser.pwconfirm.$touch()" @keyup.enter="postNewUser" v-model.trim="newUser.pwconfirm" class="vuetify-input" label="Confirm password" type="password" outlined></v-text-field>
         </div>
         <p class="error-box" v-if="$v.newUser.pwconfirm.$error">Passwords need to match</p>
         <div class="input-container" style="margin-top: -20px; display: none">
@@ -34,8 +34,11 @@
         >
         </v-text-field>
         <div class="button-container" style="margin-top: -10px">
-            <button @click="postNewUser" :disabled="$v.$invalid" class="registration-button">Register</button>
+            <button v-if="!$v.$invalid" @click="postNewUser" :disabled="$v.$invalid" class="registration-button">Register</button>
+            <button v-if="$v.$invalid" @click.stop="dialog = true" class="registration-button">Register</button>
         </div>
+        <app-dialog v-if="dialog" dialogText="You're not finished though" buttonText="OK!" :list="dialogList" />
+        <app-dialog v-if="dialogTakenEmail" dialogText="This e-mail address is already registered with us!" buttonText="OK!" />
       </div>
   </div>
 </template>
@@ -44,6 +47,7 @@
 import axios from 'axios'
 import appHeader from './../../components/Header'
 import { required, minLength, maxLength, email, sameAs } from 'vuelidate/lib/validators'
+import appDialog from '@/components/Dialog'
 
 export default {
     data() {
@@ -61,7 +65,10 @@ export default {
                 v => !!v || 'Name is required',
                 v => v.length <= 10 || 'Name must be less than 10 characters',
             ],
-            selectedFileName: ''
+            selectedFileName: '',
+            dialog: false,
+            dialogTakenEmail: false,
+            dialogList: ['We need at least:', '- Name', '- E-mail', '- Password']
         }
     },
     methods: {
@@ -83,10 +90,10 @@ export default {
                 axios.post(this.serverUrl, fd)
                     .then(response => {
                         if (response.data.success === false) {
-                            this.newUser.name = '';
+                            console.log(response);
                             this.newUser.email = '';
-                            this.newUser.password = '';
-                            return this.newUser.pwconfirm = '';
+                            this.dialog = false;
+                            return this.dialogTakenEmail = true;
                         }
                         return this.$router.push({path: '/login'});
                         })
@@ -94,11 +101,9 @@ export default {
             } else {
                 alert('Passwords need to match');
             }
-        }
+        },
     },
-    components: {
-        appHeader
-    },
+    components: { appHeader, appDialog },
     validations: {
         newUser: {
             name: {

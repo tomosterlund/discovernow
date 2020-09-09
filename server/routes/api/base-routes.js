@@ -45,14 +45,14 @@ router.post('/registration', uploadPic.single('image'), async (req, res) => {
     if (req.file) {
         image = getDate() + req.file.originalname;
     } else if (!req.file) {
-        image = 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/User_font_awesome.svg/768px-User_font_awesome.svg.png';
+        image = 'randomuser.png';
     }
 
     // checking if user exists & res if yes
     try {
     const userDoc = await User.findOne({ email: email })
     if (userDoc) {
-        return res.json({ success: false })
+        return res.json({ success: false, emailTaken: true });
     }
 
     // hasing pw and creating user
