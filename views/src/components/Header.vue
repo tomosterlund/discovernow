@@ -1,27 +1,77 @@
 <template>
-  <div class="header-main__container">
-      <div class="header-left__container">
-          <div class="header__page-title">discover n<i class="fa fa-search" aria-hidden="true"></i>w</div>
-          <div class="input-container">
-              <input ref="searchField" @keyup.enter="searchForCourse" v-model="searchInput.input" type="text" placeholder="Search for courses">
-              <unicon @click="searchForCourse" class="unicon-search" name="search" fill="white" />
-          </div>
-      </div>
-      <div class="header-right__container">
-          <nav>
-              <ul>
-                  <li v-if="this.$store.state.user"><div :style="userImageCss" class="user-image"></div></li>
-                  <li><router-link to="/">Home</router-link></li>
-                  <li v-if="this.$store.state.user"><router-link to="/my-content">My content</router-link></li>
-                  <li v-if="this.$store.state.user">
-                        <i @click="goToNewCourse" class="fa fa-plus-circle" aria-hidden="true"></i>
-                  <li v-if="!this.$store.state.user"><router-link to="/register">Register</router-link></li>
-                  <li v-if="!this.$store.state.user"><router-link to="/login">Login</router-link></li>
-                  <li v-if="this.$store.state.user" @click="getSignOut">Sign out</li>
-              </ul>
-          </nav>
-      </div>
-  </div>
+    <span style="width: 100%">
+        <div class="header-main__container">
+            <div class="header-left__container">
+                <v-icon @click="drawer = !drawer" class="icon-hover d-sm-flex d-md-none" large dark color="#fffed3" elevation="24" left>mdi-menu</v-icon>
+                <div class="header__page-title">discover n<i class="fa fa-search" aria-hidden="true"></i>w</div>
+                <div class="input-container hidden-sm-and-down d-md-flex">
+                    <input
+                    ref="searchField"
+                    @keyup.enter="searchForCourse"
+                    v-model="searchInput.input" type="text"
+                    placeholder="Search for courses"
+                    >
+                    <unicon @click="searchForCourse" class="unicon-search" name="search" fill="white" />
+                </div>
+            </div>
+            <div class="header-right__container">
+                <nav class="hidden-sm-and-down d-md-flex">
+                    <ul>
+                        <li v-if="this.$store.state.user"><div :style="userImageCss" class="user-image"></div></li>
+                        <li><router-link to="/">Home</router-link></li>
+                        <li v-if="this.$store.state.user"><router-link to="/my-content">My content</router-link></li>
+                        <li v-if="this.$store.state.user">
+                            <i @click="goToNewCourse" class="fa fa-plus-circle" aria-hidden="true"></i>
+                        <li v-if="!this.$store.state.user"><router-link to="/register">Register</router-link></li>
+                        <li v-if="!this.$store.state.user"><router-link to="/login">Login</router-link></li>
+                        <li v-if="this.$store.state.user" @click="getSignOut">Sign out</li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <v-navigation-drawer class="d-sm-flex d-md-none d-lg-none d-xl-none" v-model="drawer" app>
+          <v-icon @click="drawer = !drawer" large right class="icon-hover">
+              mdi-close
+          </v-icon>
+          <v-list>
+              <span v-if="!this.$store.state.user">
+                <v-list-item v-for="item in listItemsHeaderPublic" :key="item.text" class="icon-hover" router :to="item.route">
+                        <v-icon left>mdi-{{ item.icon }}</v-icon>
+                        <v-list-item-title class="ml-2">{{ item.text }}</v-list-item-title>
+                </v-list-item>
+              </span>
+              <span v-if="this.$store.state.user">
+                <v-list-item v-for="item in listItemsHeaderMembers" :key="item.text" class="icon-hover" router :to="item.route">
+                        <v-icon left>mdi-{{ item.icon }}</v-icon>
+                        <v-list-item-title class="ml-2">{{ item.text }}</v-list-item-title>
+                </v-list-item>
+                <v-list-item @click="getSignOut" class="icon-hover">
+                        <v-icon left>mdi-logout</v-icon>
+                        <v-list-item-title class="ml-2">Sign out</v-list-item-title>
+                </v-list-item>
+              </span>
+              <div class="input-container-drawer">
+                    <input
+                    ref="searchField"
+                    @keyup.enter="searchForCourse"
+                    v-model="searchInput.input" type="text"
+                    placeholder="Search for courses"
+                    class="drawer-input"
+                    >
+                    <unicon @click="searchForCourse" class="unicon-search" name="search" fill="black" />
+                </div>
+                <div v-if="courseData" class="course-info__container" style="margin-top: 40px">
+                    <div class="course-image" :style="{ backgroundImage: `url('https://discover-test-files.s3.eu-central-1.amazonaws.com/${courseData.courseImageUrl}')` }"></div>
+                    <div class="course-title">{{ courseData.courseTitle }}</div>
+                </div>
+                <span v-if="courseData">
+                    <div @click="goToVideo(video)" v-for="(video, index) in courseVideos" :key="video._id" class="video-summary__container">
+                        {{ index + 1 }}. {{ video.title }}
+                    </div>
+                </span>
+          </v-list>
+      </v-navigation-drawer>
+    </span>
 </template>
 
 <script>
@@ -34,7 +84,18 @@ export default {
             serverUrl: 'api/base/registration',
             searchInput: {
                 input: ''
-            }
+            },
+            drawer: false,
+            listItemsHeaderPublic: [
+                { text: 'Find courses', icon: 'teach', route: '/' },
+                { text: 'Register', icon: 'account-plus', route: '/register' },
+                { text: 'Sign in', icon: 'login', route: '/login' },
+            ],
+            listItemsHeaderMembers: [
+                { text: 'Find courses', icon: 'teach', route: '/' },
+                { text: 'Add content', icon: 'plus', route: '/add-course' },
+                { text: 'My content', icon: 'folder', route: '/my-content' },
+            ],
         }
     },
     computed: {
@@ -70,6 +131,10 @@ export default {
                     return this.$router.push({ path: '/search-results' });
                 })
                 .catch(error => console.log(error));
+        },
+        goToVideo(video) {
+            this.$store.state.currentVideo = `${video.videoUrl}`;
+            this.$router.push({ path: `/video/${video._id}` });
         }
     },
     created() {
@@ -85,7 +150,8 @@ export default {
                 })
                 .catch(err => console.log(err));
         }
-    }
+    },
+    props: ['courseData', 'courseVideos']
 }
 </script>
 
@@ -100,7 +166,6 @@ export default {
         margin: 0;
         height: 50px;
         width: 100%;
-        min-width: 900px;
         background-color: $darkGreen;
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
         display: flex;
@@ -150,13 +215,6 @@ export default {
                 @keyframes focusInput {
                     100% {
                         width: 350px;
-                    }
-                }
-                .unicon-search {
-                    margin-left: 7px;
-                    cursor: pointer;
-                    &:hover {
-                        transform: scale(1.15);
                     }
                 }
             }
@@ -210,4 +268,57 @@ export default {
             color: $darkOrange;
         }
     } 
+
+    .input-container-drawer {
+        display: flex;
+        width: 100%;
+        align-items: center;
+        input {
+            width: 80%;
+            border: 1px solid black;
+            border-radius: 2px;
+            padding: 0.4rem;
+            margin: 10px 0 0 5px;
+        }
+    }
+    .unicon-search {
+        margin: 5px 0 0 7px;
+        cursor: pointer;
+        &:hover {
+            transform: scale(1.15);
+        }
+    }
+
+    .course-info__container {
+        width: 100%;
+        height: 80px;
+        display: flex;
+        align-items: center;
+        .course-image {
+            height: 60px;
+            width: 60px;
+            border-radius: 4px;
+            background-size: cover;
+            margin: 0 0 0 10px;
+        }
+        .course-title {
+            padding: 10px;
+            font-size: 20px;
+            font-weight: 800px;
+        }
+    }
+    .video-summary__container {
+            height: 50px;
+            width: 100%;
+            border-bottom: 1px solid gray;
+            padding: 0.5rem;
+            display: flex;
+            align-items: center;
+            font-weight: 500;
+            cursor: pointer;
+            &:hover {
+                background-color: $darkGreen;
+                color: white;
+            }
+        }
 </style>

@@ -151,7 +151,6 @@ export default {
         align-items: center;
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
         background-color: rgb(222, 228, 231);
-        min-width: 900px;
         .landing-page__greeting {
             width: 90%;
             height: 300px;
@@ -174,18 +173,6 @@ export default {
                     font-size: 19.5px;
                     letter-spacing: 0.03rem;
                     padding: 2rem;
-                }
-                .top-image {
-                    height: 42.5%;
-                    width: 95%;
-                    background-size: cover;
-                    margin-bottom: 5%;
-                    opacity: 80%;
-                }
-                .bottom-image {
-                    height: 42.5%;
-                    width: 95%;
-                    background-size: cover;
                 }
             }
             .right-container {
@@ -217,6 +204,18 @@ export default {
                     background-color: transparent;
                     opacity: 0.35;
                     z-index: 0;
+                }
+            }
+        }
+        @media (max-width: 900px) {
+            .landing-page__greeting {
+                width: 95%;
+                max-width: 530px;
+                .left-container {
+                    width: 100%;
+                }
+                .right-container {
+                    display: none;
                 }
             }
         }
@@ -269,6 +268,15 @@ export default {
                 display: flex;
                 margin-top: 30px;
                 width: 100%;
+            }
+        }
+        @media (max-width: 900px) {
+            .white-container {
+                width: 95%;
+                max-width: 530px;
+                .select-input {
+                    width: 300px;
+                }
             }
         }
         .my-courses__container::-webkit-scrollbar { /* WebKit */

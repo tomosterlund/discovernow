@@ -230,4 +230,13 @@ export default {
         border-radius: 3px;
         margin-top: -10px;
     }
+
+    @media (max-width: 900px) {
+        .form-container {
+            width: 350px;
+            .vuetify-input {
+                width: 320px !important;
+            }
+        }
+    }
 </style>

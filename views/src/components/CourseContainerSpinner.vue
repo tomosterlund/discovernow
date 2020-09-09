@@ -2,7 +2,7 @@
     <div class="course-container" style="display: flex; flex-direction: column; justify-content: center">
         <half-circle-spinner
         :animation-duration="1000"
-        :size="60"
+        :size="40"
         color="white"
         />
     </div>
@@ -41,6 +41,13 @@ export default {
         &:hover {
             transform: scale(1.025);
             box-shadow: 0px 5px 10px 0px gray;
+        }
+    }
+
+    @media (max-width: 900px) {
+        .course-container {
+            min-width: 150px;
+            height: 220px;
         }
     }
 </style>

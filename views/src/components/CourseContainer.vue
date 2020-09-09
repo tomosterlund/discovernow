@@ -29,9 +29,6 @@ export default {
         width: 220px;
         box-shadow: 0px 3px 9px 0px lightgray;
         margin: 15px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
         cursor: pointer;
         background-color: $darkGreen;
         border-radius: 5px;
@@ -70,6 +67,23 @@ export default {
         margin-right: 10px;
         background-size: cover;
         border-radius: 3px;
+        }
+    }
+    @media (max-width: 900px) {
+        .course-container {
+            width: 150px;
+            height: 220px;
+            position: relative;
+            .course-title {
+                margin: 0;
+            }
+            .numOfVideos {
+                position: absolute;
+                bottom: 0px;
+                font-size: 14px;
+                color: lightgray;
+            }
+            .creation-date { display: none }
         }
     }
 </style>

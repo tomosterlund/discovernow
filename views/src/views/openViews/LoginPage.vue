@@ -110,4 +110,12 @@ export default {
             }
         }
     }
+    @media (max-width: 900px) {
+        .form-container {
+            width: 350px;
+            .vuetify-input {
+                width: 320px !important;
+            }
+        }
+    }
 </style>

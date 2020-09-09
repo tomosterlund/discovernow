@@ -57,7 +57,6 @@ export default {
         align-items: center;
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
         background-color: rgb(222, 228, 231);
-        min-width: 900px;
         h1 {
             font-size: 25px;
             font-weight: 600;
@@ -100,6 +99,17 @@ export default {
                     }
                 }
             }
+        }
+    }
+    @media (max-width: 900px) {
+        .course-container {
+            max-width: 320px;
+        }
+        h2 {
+            font-size: 20px !important;
+        }
+        .course-author {
+            font-size: 14px !important;
         }
     }
 </style>
