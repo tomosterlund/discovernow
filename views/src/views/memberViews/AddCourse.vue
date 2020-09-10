@@ -48,14 +48,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    $darkGreen: #264653;
-    $green: #2a9d8f;
-    $yellow: #e9c46a;
-    $orange: #f4a261;
-    $darkOrange: #e76f51;
     .add-course__container {
         width: 100%;
-        min-width: 900px;
         height: auto;
         min-height: 95vh;
         display: flex;
@@ -83,4 +77,23 @@ export default {
                 padding: 0;
             }
         }
+    @media (max-width: 900px) {
+        .add-course__container {
+            flex-direction: column;
+            align-items: center;
+            margin: auto;
+        }
+        .inspiration-container {
+            width: 90%;
+            min-width: 300px;
+            margin: 20px auto;
+            .inspiration-image {
+                height: 50%;
+                width: 100%;
+            }
+            h1 {
+                text-align: center;
+            }
+        }
+    }
 </style>

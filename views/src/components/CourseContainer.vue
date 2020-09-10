@@ -4,7 +4,7 @@
             <h2 class="course-title">
                 {{ course.courseTitle }}
             </h2>
-            <div :style="{ backgroundImage: `url('https://discover-test-files.s3.eu-central-1.amazonaws.com/${course.courseImageUrl}')` }" class="course-image__container"></div>
+            <div :style="{ backgroundImage: `url('${AWS_BUCKET}${course.courseImageUrl}')` }" class="course-image__container"></div>
             <div class="numOfVideos">Number of videos: {{ course.classIds.length }}</div>
             <div class="creation-date">Created at: {{ course.timeStamp }}</div>
         </div>
@@ -13,17 +13,16 @@
 
 <script>
 export default {
-    props: ['course']
+    props: ['course'],
+    data() {
+        return {
+            AWS_BUCKET: process.env.VUE_APP_AWS_BUCKET
+        }
+    }
 }
 </script>
 
 <style lang="scss" scoped>
-    $darkGreen: #264653;
-    $green: #2a9d8f;
-    $yellow: #e9c46a;
-    $orange: #f4a261;
-    $darkOrange: #e76f51;
-
     .course-container {
         height: 270px;
         width: 220px;

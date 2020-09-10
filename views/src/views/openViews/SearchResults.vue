@@ -4,7 +4,7 @@
         <h1>Showing results for: "{{ lastSearchInput }}"</h1>
         <div class="courses-container">
             <div v-for="course in searchResults" :key="course._id" @click="goToCourse(course._id)" class="course-container">
-                <div :style="{ backgroundImage: `url('https://discover-test-files.s3.eu-central-1.amazonaws.com/${course.courseImageUrl}')` }" class="image-container"></div>
+                <div :style="{ backgroundImage: `url('${AWS_BUCKET}${course.courseImageUrl}')` }" class="image-container"></div>
                 <div class="course-info__container">
                     <h2>
                         {{ course.courseTitle }}
@@ -37,17 +37,16 @@ export default {
         goToCourse(courseId) {
             return this.$router.push({ path: `/course/${courseId}` });
         }
+    },
+    data() {
+        return {
+            AWS_BUCKET: process.env.VUE_APP_AWS_BUCKET
+        }
     }
 }
 </script>
 
 <style lang="scss" scoped>
-    $darkGreen: #264653;
-    $green: #2a9d8f;
-    $yellow: #e9c46a;
-    $orange: #f4a261;
-    $darkOrange: #e76f51;
-
     .search-results__page-container {
         width: 100%;
         height: auto;

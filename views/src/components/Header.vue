@@ -95,19 +95,19 @@ export default {
                 { text: 'Find courses', icon: 'teach', route: '/' },
                 { text: 'Add content', icon: 'plus', route: '/add-course' },
                 { text: 'My content', icon: 'folder', route: '/my-content' },
-            ],
+            ]
         }
     },
     computed: {
         userImageCss: function() {
             return {
-                backgroundImage: `url('https://discover-test-files.s3.eu-central-1.amazonaws.com/${this.$store.state.user.imageUrl}')`
+                backgroundImage: `url('${process.env.VUE_APP_AWS_BUCKET}${this.$store.state.user.imageUrl}')`
             }
         }
     },
     methods: {
         getSignOut() {
-            axios.get('api/base/signout')
+            axios.get('/api/base/signout')
                 .then(response => {
                     console.log(response);
                     this.$store.state.courseCreatorPage = 0;
@@ -125,7 +125,7 @@ export default {
         },
         searchForCourse() {
             this.$store.commit('lastSearchInput', this.searchInput.input);
-            axios.post('api/content/find-course', this.searchInput)
+            axios.post('/api/content/find-course', this.searchInput)
                 .then(response => {
                     this.$store.dispatch('lastSearchResults', response.data.matchingCourses);
                     return this.$router.push({ path: '/search-results' });
@@ -156,12 +156,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    $darkGreen: #264653;
-    $green: #2a9d8f;
-    $yellow: #e9c46a;
-    $orange: #f4a261;
-    $darkOrange: #e76f51;
-
     .header-main__container {
         margin: 0;
         height: 50px;
@@ -215,6 +209,13 @@ export default {
                 @keyframes focusInput {
                     100% {
                         width: 350px;
+                    }
+                }
+                .unicon-search {
+                    margin: 0px 0 0 7px;
+                    cursor: pointer;
+                    &:hover {
+                        transform: scale(1.15);
                     }
                 }
             }
@@ -280,12 +281,12 @@ export default {
             padding: 0.4rem;
             margin: 10px 0 0 5px;
         }
-    }
-    .unicon-search {
-        margin: 5px 0 0 7px;
-        cursor: pointer;
-        &:hover {
-            transform: scale(1.15);
+        .unicon-search {
+            margin: 10px 0 0 7px;
+            cursor: pointer;
+            &:hover {
+                transform: scale(1.15);
+            }
         }
     }
 

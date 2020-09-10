@@ -54,12 +54,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    $darkGreen: #264653;
-    $green: #2a9d8f;
-    $yellow: #e9c46a;
-    $orange: #f4a261;
-    $darkOrange: #e76f51;
-
     .login-page__container {
         width: 100%;
         height: auto;

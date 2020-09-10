@@ -116,7 +116,7 @@ export default {
     computed: {
         courseImageCss: function() {
             return {
-                backgroundImage: `url('https://discover-test-files.s3.eu-central-1.amazonaws.com/${this.$store.state.currentCourseObject.courseData.courseImageUrl}')`
+                backgroundImage: `url('${process.env.VUE_APP_AWS_BUCKET}${this.$store.state.currentCourseObject.courseData.courseImageUrl}')`
             }
         }
     },
@@ -127,13 +127,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    $darkGreen: #264653;
-    $green: #2a9d8f;
-    $yellow: #e9c46a;
-    $orange: #f4a261;
-    $darkOrange: #e76f51;
     $deleteRed: rgb(241, 50, 50);
-    
         .form-container {
             width: 56%;
             min-width: 400px;
@@ -275,5 +269,21 @@ export default {
         background-size: cover;
         border-radius: 3px;
         box-shadow: 0px 1px 3px 0px gray;
+    }
+
+    @media (max-width: 900px) {
+        .form-container {
+            min-width: 0px;
+            width: 100%;
+        }
+        .form-control {
+            width: 280px !important;
+        }
+        .select-input {
+            width: 280px !important;
+        }
+        button {
+            margin: auto 20px;
+        }
     }
 </style>

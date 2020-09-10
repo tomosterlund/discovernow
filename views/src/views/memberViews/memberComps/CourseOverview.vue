@@ -87,7 +87,7 @@ export default {
     computed: {
         courseImageCss: function() {
             return {
-                backgroundImage: `url('https://discover-test-files.s3.eu-central-1.amazonaws.com/${this.$store.state.currentCourseObject.courseData.courseImageUrl}')`
+                backgroundImage: `url('${process.env.VUE_APP_AWS_BUCKET}${this.$store.state.currentCourseObject.courseData.courseImageUrl}')`
             }
         }
     },
@@ -109,137 +109,144 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-    $darkGreen: #264653;
-    $green: #2a9d8f;
-    $yellow: #e9c46a;
-    $orange: #f4a261;
-    $darkOrange: #e76f51;
-
-    
-        .course-overview__container {
-            width: 56%;
-            min-width: 400px;
-            padding: 10px;
+<style lang="scss" scoped> 
+    .course-overview__container {
+        width: 56%;
+        min-width: 400px;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: white;
+        border-radius: 10px;
+        .course-info__container {
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            background-color: white;
-            border-radius: 10px;
-            .course-info__container {
-                display: flex;
-                justify-content: flex-start;
-                width: 80%;
-                height: auto;
-                border-bottom: 1px solid gray;
-                padding: 0.5rem;
-                .course-image__container {
-                    width: 140px;
-                    height: 100px;
-                    margin-right: 10px;
-                    background-size: cover;
-                    border-radius: 3px;
-                    box-shadow: 0px 2px 4px 0px lightgray;
-                }
-                .course-title {
-                    font-size: 20px;
-                    text-decoration: underline;
-                    color: rgb(82, 82, 211);
-                    cursor: pointer;
-                    &:hover {
-                        opacity: 0.8;
-                    }
-                }
-                .creation-date {
-                    color: gray;
-                    text-transform: uppercase;
-                    font-weight: 700;
-                    font-size: 14px;
+            justify-content: flex-start;
+            width: 80%;
+            height: auto;
+            border-bottom: 1px solid gray;
+            padding: 0.5rem;
+            .course-image__container {
+                width: 140px;
+                height: 100px;
+                margin-right: 10px;
+                background-size: cover;
+                border-radius: 3px;
+                box-shadow: 0px 2px 4px 0px lightgray;
+            }
+            .course-title {
+                font-size: 20px;
+                text-decoration: underline;
+                color: rgb(82, 82, 211);
+                cursor: pointer;
+                &:hover {
+                    opacity: 0.8;
                 }
             }
-            .course-videos__list {
-                margin-top: 30px;
-                width: 80%;
-                .video-container {
-                    height: 40px;
+            .creation-date {
+                color: gray;
+                text-transform: uppercase;
+                font-weight: 700;
+                font-size: 14px;
+            }
+        }
+        .course-videos__list {
+            margin-top: 30px;
+            width: 80%;
+            .video-container {
+                height: 40px;
+                display: flex;
+                justify-content: space-between;
+                align-content: center;
+                cursor: pointer;
+                background-color: $darkGreen;
+                color: white;
+                font-weight: 500;
+                margin-bottom: 5px;
+                border-radius: 5px;
+                padding: 0.3rem;
+                .video__button-container {
                     display: flex;
-                    justify-content: space-between;
-                    align-content: center;
-                    cursor: pointer;
-                    background-color: $darkGreen;
-                    color: white;
-                    font-weight: 500;
-                    margin-bottom: 5px;
-                    border-radius: 5px;
-                    padding: 0.3rem;
-                    .video__button-container {
-                        display: flex;
-                        align-items: center;
-                        button {
-                            background-color: inherit;
-                            color: white;
-                            border: 0;
-                            outline: none;
-                            font-size: 20px;
-                            i {
-                                &:hover {
-                                color: red;
-                                transform: scale(1.2);
-                            }
-                            }
+                    align-items: center;
+                    button {
+                        background-color: inherit;
+                        color: white;
+                        border: 0;
+                        outline: none;
+                        font-size: 20px;
+                        i {
+                            &:hover {
+                            color: red;
+                            transform: scale(1.2);
+                        }
                         }
                     }
                 }
             }
-            .button-container {
-                display: flex;
-                justify-content: space-around;
-                margin-top: 20px;
-                width: 100%;
-            }
-            .save-order__button {
-                padding: 0.5rem;
-                font-weight: 600;
-                font-size: 16px;
-                background-color: $darkGreen;
-                color: white;
-                border: 1px solid $darkGreen;
-                outline: none;
-                cursor: pointer;
-                border-radius: 3px;
-                &:hover {
-                    animation: orderButtonHover;
-                    animation-iteration-count: 1;
-                    animation-duration: 0.3s;
-                    animation-fill-mode: forwards;
-                }
-            }
         }
-
-    @keyframes orderButtonHover {
-        0% {
-            color: white;
+        .button-container {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+            width: 100%;
+        }
+        .save-order__button {
+            padding: 0.5rem;
+            font-weight: 600;
+            font-size: 16px;
             background-color: $darkGreen;
-        }
-        100% {
-            color: $darkGreen;
-            background-color: white;
-            transform: scale(1.04);
+            color: white;
+            border: 1px solid $darkGreen;
+            outline: none;
+            cursor: pointer;
+            border-radius: 3px;
+            &:hover {
+                animation: orderButtonHover;
+                animation-iteration-count: 1;
+                animation-duration: 0.3s;
+                animation-fill-mode: forwards;
+            }
         }
     }
 
-    .verification-box {
-        background-color: rgb(142, 212, 221);
-        margin-top: 10px;
-        padding: 0.5rem;
-        border-radius: 3px;
+@keyframes orderButtonHover {
+    0% {
+        color: white;
+        background-color: $darkGreen;
     }
+    100% {
+        color: $darkGreen;
+        background-color: white;
+        transform: scale(1.04);
+    }
+}
 
-    .unicon-class {
-        margin-right: 10px;
-        cursor: pointer;
-        &:hover {
-            transform: scale(1.2);
-        }
+.verification-box {
+    background-color: rgb(142, 212, 221);
+    margin-top: 10px;
+    padding: 0.5rem;
+    border-radius: 3px;
+}
+
+.unicon-class {
+    margin-right: 10px;
+    cursor: pointer;
+    &:hover {
+        transform: scale(1.2);
     }
+}
+
+@media (max-width: 900px) {
+    .course-overview__container {
+        min-width: 0px;
+        width: 100%;
+    }
+    .video-container {
+        height: fit-content !important;
+    }
+    .course-image__container {
+        width: 130px !important;
+        height: 90px !important;
+    }
+}
 </style>

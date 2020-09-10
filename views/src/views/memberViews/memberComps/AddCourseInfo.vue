@@ -108,13 +108,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    $darkGreen: #264653;
-    $green: #2a9d8f;
-    $yellow: #e9c46a;
-    $orange: #f4a261;
-    $darkOrange: #e76f51;
-
-    
         .form-container {
             width: 56%;
             min-width: 400px;
@@ -207,5 +200,17 @@ export default {
         padding: 0.5rem;
         border-radius: 3px;
         width: 80%;
+    }
+    @media (max-width: 900px) {
+        .form-container {
+            min-width: 0px;
+            width: 100%;
+        }
+        .form-control {
+            width: 280px !important;
+        }
+        .select-input {
+            width: 280px !important;
+        }
     }
 </style>

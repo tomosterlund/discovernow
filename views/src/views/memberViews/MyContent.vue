@@ -22,7 +22,7 @@
                                 Course title: {{ course.courseTitle }}
                                 <unicon v-if="!course.public" name="eye-slash" fill="#f4a261" />
                             </h2>
-                            <div :style="{ backgroundImage: `url('https://discover-test-files.s3.eu-central-1.amazonaws.com/${course.courseImageUrl}')` }" class="course-image__container"></div>
+                            <div :style="{ backgroundImage: `url('${AWS_BUCKET}${course.courseImageUrl}')` }" class="course-image__container"></div>
                             <div class="numOfVideos">Number of videos: {{ course.classIds.length }}</div>
                             <div class="creation-date">Created at: {{ course.timeStamp }}</div>
                         </div>
@@ -42,7 +42,8 @@ export default {
     data() {
         return {
             userCourses: {},
-            queryFinished: false
+            queryFinished: false,
+            AWS_BUCKET: process.env.VUE_APP_AWS_BUCKET
         }
     },
     components: {
@@ -86,15 +87,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    $darkGreen: #264653;
-    $green: #2a9d8f;
-    $yellow: #e9c46a;
-    $orange: #f4a261;
-    $darkOrange: #e76f51;
-
     .page__container {
         width: 100%;
-        min-width: 900px;
         height: auto;
         min-height: 95vh;
         display: flex;
@@ -114,8 +108,8 @@ export default {
             box-shadow: 10px 10px 50px gray;
             .my-courses__container {
                 display: flex;
-                justify-content: start;
                 flex-wrap: wrap;
+                justify-content: center;
                 .course-container {
                     height: 280px;
                     width: 220px;

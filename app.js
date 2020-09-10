@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const dotenv = require('dotenv').config()
 const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
@@ -26,7 +27,7 @@ app.use(session({
 }))
 
 // DB-setup
-const dbUri = 'mongodb+srv://tommy:tommy123@cluster0.6ne0u.mongodb.net/discover-local?retryWrites=true&w=majority';
+const dbUri = process.env.MONGO_URI;
 mongoose.connect(dbUri, {
     useNewUrlParser: true,
     useUnifiedTopology: true

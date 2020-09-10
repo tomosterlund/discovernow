@@ -1,7 +1,7 @@
 <template>
   <div class="nav-container">
       <div class="course-info__container">
-          <div v-if="this.$store.state.loadingDone" class="course-image" :style="{ backgroundImage: `url('https://discover-test-files.s3.eu-central-1.amazonaws.com/${courseData.courseImageUrl}')` }"></div>
+          <div v-if="this.$store.state.loadingDone" class="course-image" :style="{ backgroundImage: `url('${AWS_BUCKET}${courseData.courseImageUrl}')` }"></div>
           <div v-if="this.$store.state.loadingDone" class="course-title">{{ courseData.courseTitle }}</div>
           <v-skeleton-loader
             v-if="!this.$store.state.loadingDone"
@@ -36,17 +36,16 @@ export default {
             this.$store.state.currentVideo = `${video.videoUrl}`;
             this.$router.push({ path: `/video/${video._id}` });
         }
+    },
+    data() {
+        return {
+            AWS_BUCKET: process.env.VUE_APP_AWS_BUCKET
+        }
     }
 }
 </script>
 
 <style lang="scss" scoped>
-    $darkGreen: #264653;
-    $green: #2a9d8f;
-    $yellow: #e9c46a;
-    $orange: #f4a261;
-    $darkOrange: #e76f51;
-
     .nav-container {
         border-left: 1px solid gray;
         width: 100%;

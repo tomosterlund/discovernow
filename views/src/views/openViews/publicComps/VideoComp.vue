@@ -9,7 +9,7 @@
             v-if="!this.$store.state.loadingDone"
             >
             </v-skeleton-loader>
-            <div v-if="this.$store.state.loadingDone" class="author-image" :style="{ backgroundImage: `url('https://discover-test-files.s3.eu-central-1.amazonaws.com/${courseAuthor.imageUrl}')` }"></div>
+            <div v-if="this.$store.state.loadingDone" class="author-image" :style="{ backgroundImage: `url('${AWS_BUCKET}${courseAuthor.imageUrl}')` }"></div>
             <div v-if="this.$store.state.loadingDone" class="video-info__text-container">
                 <span class="video-title">{{ title }}</span>
                 <div class="timestamp">{{ this.timestamp }}</div>
@@ -34,13 +34,14 @@ export default {
             views: 0,
             title: '',
             description: '',
-            routeParam: this.$route.params.videoId
+            routeParam: this.$route.params.videoId,
+            AWS_BUCKET:process.env.VUE_APP_AWS_BUCKET
         }
     },
     components: { videoTexts },
     props: ['courseAuthor', 'courseVideos', 'courseData'],
     mounted() {
-        this.$refs.videoRef.src = `https://discover-test-files.s3.eu-central-1.amazonaws.com/${this.$store.state.currentVideo}`;
+        this.$refs.videoRef.src = `${process.env.VUE_APP_AWS_BUCKET}${this.$store.state.currentVideo}`;
         function numberWithCommas(x) {
             return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         }
@@ -60,12 +61,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    $darkGreen: #264653;
-    $green: #2a9d8f;
-    $yellow: #e9c46a;
-    $orange: #f4a261;
-    $darkOrange: #e76f51;
-
     .video-container {
         height: 100%;
         width: 100%;
